@@ -9,9 +9,9 @@ import SwiftUI
 import SwiftData
 
 @Model
-class Namen {
+class Personen {
     var name: String
-    
+
     init(name: String) {
         self.name = name
     }
