@@ -14,7 +14,7 @@ class Destination {
     var details: String
     var date: Date
     var priority: Int
-    @Relationship(deleteRule: .cascade) var sights = [Sight]()
+    @Relationship(deleteRule: .cascade) var personen = [Personen]()
     @Relationship(deleteRule: .cascade) var kosten = [Kosten]()
 
     init(name: String = "", details: String = "", date: Date = .now, priority: Int = 2) {

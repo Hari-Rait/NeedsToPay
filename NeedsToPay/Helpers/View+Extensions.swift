@@ -5,4 +5,10 @@
 //  Created by Hari Rait on 18.12.23.
 //
 
-import Foundation
+import SwiftUI
+
+var currencySymbol: String {
+    let locale = Locale.current
+    
+    return locale.currencySymbol ?? ""
+}

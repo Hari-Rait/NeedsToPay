@@ -10,11 +10,12 @@ import SwiftData
 
 struct EditDestinationView: View {
     @Bindable var destination: Destination
-    @State private var newSightName = ""
-    @State private var newKosten = ""
-    @State private var newKostenZahlen = ""
+    @State private var newPersonName = ""
+    @State private var newKostenName = ""
+    @State private var newKostenBeitrag = ""
+    @State private var newKostenAnzahl = ""
     
-
+    
     var body: some View {
         
         Form {
@@ -23,7 +24,7 @@ struct EditDestinationView: View {
             DatePicker("Date", selection: $destination.date)
                 .datePickerStyle(.graphical)
                 .background(.background, in: .rect(cornerRadius: 10))
-
+            
             Section("Währung") {
                 Picker("Währung", selection: $destination.priority) {
                     Image(systemName: "dollarsign").tag(1)
@@ -32,58 +33,82 @@ struct EditDestinationView: View {
                 }
                 .pickerStyle(.segmented)
             }
-
+            
             Section("Personen") {
-                    ForEach(destination.sights) { sight in
-                        
-                        Text(sight.name)
+                ForEach(destination.personen, id: \.self) { personen in
+                    NavigationLink(destination: Text(personen.name)) {
+                        PeopleView(personen: personen)
                     }
+                    
+                }
                 
-
                 HStack {
-                    TextField("Füge eine Person hinzu", text: $newSightName)
-
+                    TextField("Füge eine Person hinzu", text: $newPersonName)
+                    
                     Button("Hinzufügen", action: addSight)
                 }
             }
             
             Section("Kosten Hinzufügen") {
-                ForEach(destination.kosten) { kosten in
-                    Text(kosten.name)
+                    TextField("Kosten Name", text: $newKostenName)
+                    
+                    HStack {
+                        Text(currencySymbol)
+                            .font(.callout.bold())
+                        
+                        TextField("0.0", text: $newKostenBeitrag)
+                            .keyboardType(.decimalPad)
+                        
+                        TextField("Anzahl", text: $newKostenAnzahl)
+                    }
+                
+                ForEach(destination.kosten, id: \.self) { kosten in
+                    NavigationLink(destination: Text(kosten.name)) {
+                        KostenView(kosten: kosten)
+                    }
+                    
                 }
                 
-                HStack {
-                    TextField("Füge deine Kosten hinzu", text: $newKosten)
-                    
-                    Button("Hinzufügen", action: addKosten)
-                        .keyboardType(.decimalPad)
-                }
                 
-                HStack {
-                    Text(currencySymbol)
-                        .font(.callout.bold())
+                Button("Hinzufügen", action: addKosten)
                     
-                    TextField("0.0", text: $newKostenZahlen)
-                }
             }
             
         }
         .navigationTitle("Edit Destination")
         .navigationBarTitleDisplayMode(.inline)
     }
-
+    
     func addSight() {
-        guard newSightName.isEmpty == false else { return }
-
+        guard newPersonName.isEmpty == false else { return }
+        
         withAnimation {
-            let sight = Sight(name: newSightName)
-            destination.sights.append(sight)
-            newSightName = ""
+            let person = Personen(name: newPersonName)
+            destination.personen.append(person)
+            newPersonName = ""
         }
     }
     
     func addKosten() {
         /// Um Kosten hinzuzufügen
+//        guard newKostenName.isEmpty == false else { return }
+//        guard newKostenBeitrag.isEmpty == false else { return }
+//        guard newKostenAnzahl.isEmpty == false else { return }
+//        
+//        withAnimation {
+//            let kosten = Kosten(name: newKostenName, beitrag: newKostenBeitrag, anzahl: newKostenAnzahl)
+//            destination.kosten.append(kosten)
+//            newKostenName = ""
+//            newKostenBeitrag = ""
+//            newKostenAnzahl = ""
+        
+        guard newKostenName.isEmpty == false else { return }
+        withAnimation {
+        let kosten = Kosten(name: newKostenName)
+        destination.kosten.append(kosten)
+        newKostenName = ""
+        
+        }
     }
 }
 
