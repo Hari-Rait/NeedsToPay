@@ -5,25 +5,77 @@
 //  Created by Hari Rait on 17.12.23.
 //
 
+import PhotosUI
 import SwiftUI
 import SwiftData
 
 struct EditDestinationView: View {
+    @Environment(\.modelContext) private var modelContext
     @Bindable var destination: Destination
+    
     @State private var newPersonName = ""
     @State private var newKostenName = ""
-    @State private var newKostenBeitrag = ""
+    @State private var newKostenBeitrag: Double = .zero
     @State private var newKostenAnzahl = ""
     
+    @State private var photosItem: PhotosPickerItem?
+    
+    // For the Popup View
+    @State private var showingPopover = false
+    
+    @State private var kostenAuswahl: Kosten?
+    
+    @State private var kostenWählen = Array(repeating: 0, count: 3)
     
     var body: some View {
         
         Form {
-            TextField("Name", text: $destination.name)
-            TextField("Details", text: $destination.details, axis: .vertical)
-            DatePicker("Date", selection: $destination.date)
+            Section {
+                if let imageData = destination.image {
+                    if let image = UIImage(data: imageData) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                    }
+                }
+                
+                PhotosPicker("Füge ein Foto hinzu", selection: $photosItem, matching: .images)
+                
+            }
+            
+            
+            TextField("Ort", text: $destination.name)
+            TextField("Beschreibung", text: $destination.details, axis: .vertical)
+            DatePicker("Datum", selection: $destination.date)
                 .datePickerStyle(.graphical)
                 .background(.background, in: .rect(cornerRadius: 10))
+                .accentColor(.purple)
+            
+            Section("Personen") {
+                HStack {
+                    TextField("Füge eine Person hinzu:", text: $newPersonName)
+                    
+                    Button("Hinzufügen", action: addSight)
+                        .foregroundStyle(.purple)
+                }
+                
+                ForEach(destination.personen, id: \.id) { personen in
+                    VStack (alignment: .leading) {
+                        Text(personen.name)
+                        
+                        Picker("Kosten auswählen", selection: $kostenAuswahl) {
+                            
+                            Text("").tag(nil as Kosten?)
+                            
+                            ForEach(destination.kosten, id: \.self) { kosten in
+                                Text(kosten.name).tag(kosten as Kosten?).bold()
+                            }
+                        }
+                        .pickerStyle(.menu).foregroundStyle(.purple)
+                    }
+                }
+                .onDelete(perform: deletePersonen)
+            }
             
             Section("Währung") {
                 Picker("Währung", selection: $destination.priority) {
@@ -34,56 +86,68 @@ struct EditDestinationView: View {
                 .pickerStyle(.segmented)
             }
             
-            Section("Personen") {
-                ForEach(destination.personen, id: \.self) { personen in
-                    NavigationLink(destination: Text(personen.name)) {
-                        PeopleView(personen: personen)
-                    }
-                    
-                }
+            Section("Bestellungen") {
+                TextField("Füge eine Bestellung hinzu:", text: $newKostenName)
                 
                 HStack {
-                    TextField("Füge eine Person hinzu", text: $newPersonName)
-                    
-                    Button("Hinzufügen", action: addSight)
-                }
-            }
-            
-            Section("Kosten Hinzufügen") {
-                    TextField("Kosten Name", text: $newKostenName)
-                    
-                    HStack {
-                        Text(currencySymbol)
-                            .font(.callout.bold())
-                        
-                        TextField("0.0", text: $newKostenBeitrag)
-                            .keyboardType(.decimalPad)
-                        
-                        TextField("Anzahl", text: $newKostenAnzahl)
+                    if destination.priority == 1 {
+                        Image(systemName: "dollarsign")
                     }
-                
-                ForEach(destination.kosten, id: \.self) { kosten in
-                    NavigationLink(destination: Text(kosten.name)) {
-                        KostenView(kosten: kosten)
+                    else if destination.priority == 2 {
+                        Image(systemName: "eurosign")
+                    }
+                    else {
+                        Image(systemName: "bitcoinsign")
                     }
                     
+                    TextField("", value: $newKostenBeitrag, formatter: numberFormatter)
+                        .keyboardType(.decimalPad)
+                    
+                    TextField("Anzahl:", text: $newKostenAnzahl)
+                        .keyboardType(.numberPad)
                 }
-                
                 
                 Button("Hinzufügen", action: addKosten)
-                    
+                    .foregroundStyle(.purple)
+                
+                ForEach(destination.kosten, id: \.self) { kosten in
+                    VStack (alignment: .leading) {
+                        Text(kosten.name)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        
+                        Text("Anzahl: \(kosten.anzahl)")
+                        HStack {
+                            Text("Beitrag pro Bestelllung: \(kosten.beitrag, specifier: "%.0f")")
+                            
+                            if destination.priority == 1 {
+                                Image(systemName: "dollarsign")
+                            }
+                            else if destination.priority == 2 {
+                                Image(systemName: "eurosign")
+                            }
+                            else {
+                                Image(systemName: "bitcoinsign")
+                            }
+                        }
+                    }
+                }
             }
-            
         }
-        .navigationTitle("Edit Destination")
+        .navigationTitle("NeedsToPay")
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: photosItem) {
+            Task {
+                destination.image = try? await photosItem?.loadTransferable(type: Data.self)
+            }
+        }
     }
     
     func addSight() {
         guard newPersonName.isEmpty == false else { return }
         
         withAnimation {
-            let person = Personen(name: newPersonName)
+            let person = Personen(id: UUID(), name: newPersonName)
             destination.personen.append(person)
             newPersonName = ""
         }
@@ -91,24 +155,34 @@ struct EditDestinationView: View {
     
     func addKosten() {
         /// Um Kosten hinzuzufügen
-//        guard newKostenName.isEmpty == false else { return }
-//        guard newKostenBeitrag.isEmpty == false else { return }
-//        guard newKostenAnzahl.isEmpty == false else { return }
-//        
-//        withAnimation {
-//            let kosten = Kosten(name: newKostenName, beitrag: newKostenBeitrag, anzahl: newKostenAnzahl)
-//            destination.kosten.append(kosten)
-//            newKostenName = ""
-//            newKostenBeitrag = ""
-//            newKostenAnzahl = ""
-        
         guard newKostenName.isEmpty == false else { return }
-        withAnimation {
-        let kosten = Kosten(name: newKostenName)
-        destination.kosten.append(kosten)
-        newKostenName = ""
+        guard newKostenAnzahl.isEmpty == false else { return }
         
+        withAnimation {
+            let kosten = Kosten(name: newKostenName, beitrag: newKostenBeitrag, anzahl: newKostenAnzahl)
+            destination.kosten.append(kosten)
+            newKostenName = ""
+            newKostenBeitrag = .zero
+            newKostenAnzahl = ""
         }
+    }
+    /// um die Person zu löschen
+    func deletePersonen(_ indexSet: IndexSet) {
+        for index in indexSet {
+            let personen = destination.personen[index]
+            modelContext.delete(personen)
+        }
+        
+        destination.personen.remove(atOffsets: indexSet)
+    }
+    
+    /// Number Formatter
+    var numberFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
+        
+        return formatter
     }
 }
 
@@ -120,7 +194,7 @@ struct EditDestinationView: View {
         return EditDestinationView(destination: example)
             .modelContainer(container)
     } catch {
-        fatalError("Failed to create model container.")
+        return Text("Failes to create container: \(error.localizedDescription)")
     }
 }
 

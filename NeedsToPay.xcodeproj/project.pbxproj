@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC232FFA2B39E514009AA046 /* ChosePeople.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC232FF92B39E514009AA046 /* ChosePeople.swift */; };
+		CC28A2DC2B47F85600FBA465 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC28A2DB2B47F85600FBA465 /* MainView.swift */; };
+		CC28A2DE2B47F97A00FBA465 /* IntroScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC28A2DD2B47F97A00FBA465 /* IntroScreen.swift */; };
 		CC360AD12B30E95B00789256 /* Kosten.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC360AD02B30E95B00789256 /* Kosten.swift */; };
 		CC360AD42B30EDDA00789256 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC360AD32B30EDDA00789256 /* View+Extensions.swift */; };
 		CC360AD62B30F30F00789256 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC360AD52B30F30F00789256 /* Constants.swift */; };
 		CC3FFC9D2B34A8F200888511 /* PeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3FFC9C2B34A8F200888511 /* PeopleView.swift */; };
-		CC3FFC9F2B34B12900888511 /* KostenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3FFC9E2B34B12900888511 /* KostenView.swift */; };
+		CCED6DBE2B7E97DF000CC52F /* PersonenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCED6DBD2B7E97DF000CC52F /* PersonenView.swift */; };
 		CCFF642F2B2F992100AAC431 /* NeedsToPayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFF642E2B2F992100AAC431 /* NeedsToPayApp.swift */; };
 		CCFF64312B2F992100AAC431 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFF64302B2F992100AAC431 /* ContentView.swift */; };
 		CCFF64332B2F992100AAC431 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFF64322B2F992100AAC431 /* Destination.swift */; };
@@ -43,11 +46,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CC232FF92B39E514009AA046 /* ChosePeople.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChosePeople.swift; sourceTree = "<group>"; };
+		CC28A2DB2B47F85600FBA465 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		CC28A2DD2B47F97A00FBA465 /* IntroScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroScreen.swift; sourceTree = "<group>"; };
 		CC360AD02B30E95B00789256 /* Kosten.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kosten.swift; sourceTree = "<group>"; };
 		CC360AD32B30EDDA00789256 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		CC360AD52B30F30F00789256 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CC3FFC9C2B34A8F200888511 /* PeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleView.swift; sourceTree = "<group>"; };
-		CC3FFC9E2B34B12900888511 /* KostenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KostenView.swift; sourceTree = "<group>"; };
+		CCED6DBD2B7E97DF000CC52F /* PersonenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonenView.swift; sourceTree = "<group>"; };
 		CCFF642B2B2F992100AAC431 /* NeedsToPay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NeedsToPay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCFF642E2B2F992100AAC431 /* NeedsToPayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedsToPayApp.swift; sourceTree = "<group>"; };
 		CCFF64302B2F992100AAC431 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -103,8 +109,9 @@
 			children = (
 				CCFF645C2B2FAAA300AAC431 /* EditDestinationView.swift */,
 				CCFF645A2B2FA7C600AAC431 /* DestinationListingView.swift */,
+				CCED6DBD2B7E97DF000CC52F /* PersonenView.swift */,
+				CC232FF92B39E514009AA046 /* ChosePeople.swift */,
 				CC3FFC9C2B34A8F200888511 /* PeopleView.swift */,
-				CC3FFC9E2B34B12900888511 /* KostenView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -112,9 +119,9 @@
 		CC3FFC9B2B34A8B200888511 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CC360AD02B30E95B00789256 /* Kosten.swift */,
 				CCFF64322B2F992100AAC431 /* Destination.swift */,
 				CCFF645E2B2FAEC500AAC431 /* Personen.swift */,
-				CC360AD02B30E95B00789256 /* Kosten.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -142,11 +149,13 @@
 		CCFF642D2B2F992100AAC431 /* NeedsToPay */ = {
 			isa = PBXGroup;
 			children = (
+				CCFF642E2B2F992100AAC431 /* NeedsToPayApp.swift */,
 				CC360AD22B30EDC200789256 /* Helpers */,
 				CC3FFC9B2B34A8B200888511 /* Model */,
 				CC3FFC9A2B34A89C00888511 /* View */,
-				CCFF642E2B2F992100AAC431 /* NeedsToPayApp.swift */,
 				CCFF64302B2F992100AAC431 /* ContentView.swift */,
+				CC28A2DB2B47F85600FBA465 /* MainView.swift */,
+				CC28A2DD2B47F97A00FBA465 /* IntroScreen.swift */,
 				CCFF64342B2F992200AAC431 /* Assets.xcassets */,
 				CCFF64362B2F992200AAC431 /* Preview Content */,
 			);
@@ -312,11 +321,14 @@
 				CC3FFC9D2B34A8F200888511 /* PeopleView.swift in Sources */,
 				CCFF64332B2F992100AAC431 /* Destination.swift in Sources */,
 				CCFF645B2B2FA7C600AAC431 /* DestinationListingView.swift in Sources */,
-				CC3FFC9F2B34B12900888511 /* KostenView.swift in Sources */,
 				CC360AD42B30EDDA00789256 /* View+Extensions.swift in Sources */,
 				CCFF645F2B2FAEC500AAC431 /* Personen.swift in Sources */,
+				CC232FFA2B39E514009AA046 /* ChosePeople.swift in Sources */,
 				CC360AD12B30E95B00789256 /* Kosten.swift in Sources */,
 				CCFF642F2B2F992100AAC431 /* NeedsToPayApp.swift in Sources */,
+				CC28A2DC2B47F85600FBA465 /* MainView.swift in Sources */,
+				CCED6DBE2B7E97DF000CC52F /* PersonenView.swift in Sources */,
+				CC28A2DE2B47F97A00FBA465 /* IntroScreen.swift in Sources */,
 				CCFF645D2B2FAAA300AAC431 /* EditDestinationView.swift in Sources */,
 				CC360AD62B30F30F00789256 /* Constants.swift in Sources */,
 			);
@@ -488,8 +500,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -517,8 +529,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

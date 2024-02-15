@@ -12,7 +12,17 @@ import SwiftData
 struct NeedsToPayApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView {
+                ContentView()
+                    .tabItem {
+                        Label("Orte", systemImage: "map")
+                    }
+                
+                PersonenView()
+                    .tabItem {
+                        Label("Personen", systemImage: "person")
+                    }
+            }
         }
         .modelContainer(for: Destination.self)
     }

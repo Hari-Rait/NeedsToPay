@@ -9,8 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    // Popup erklärung für die erste Anmeldung
+    @AppStorage("isFirstTime") private var isFirstTime: Bool = true
+    
     @Environment(\.modelContext) var modelContext
-
+    @Query(sort: \Destination.name) var destination: [Destination]
     @State private var path = [Destination]()
     @State private var sortOrder = SortDescriptor(\Destination.name)
     @State private var searchText = ""
@@ -29,10 +32,10 @@ struct ContentView: View {
                             Text("Name")
                                 .tag(SortDescriptor(\Destination.name))
 
-                            Text("Priority")
+                            Text("Währung")
                                 .tag(SortDescriptor(\Destination.priority, order: .reverse))
 
-                            Text("Date")
+                            Text("Datum")
                                 .tag(SortDescriptor(\Destination.date))
                         }
                         .pickerStyle(.inline)

@@ -16,6 +16,7 @@ class Destination {
     var priority: Int
     @Relationship(deleteRule: .cascade) var personen = [Personen]()
     @Relationship(deleteRule: .cascade) var kosten = [Kosten]()
+    @Attribute(.externalStorage) var image: Data?
 
     init(name: String = "", details: String = "", date: Date = .now, priority: Int = 2) {
         self.name = name

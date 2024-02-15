@@ -6,14 +6,24 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PeopleView: View {
     @Bindable var personen: Personen
+    @Query private var kosten: [Kosten]
+    
+    @State private var kostenAuswahl: Kosten?
     
     var body: some View {
-        Text(personen.name)
-        
-        
+        NavigationStack {
+            List(personen.kosten, id: \.self, selection: $kostenAuswahl) { kosten in
+                Text(kosten.name).tag(kosten as Kosten?)
+            }
+            .toolbar {
+                EditButton()
+            }
+            
+        }
     }
 }
 

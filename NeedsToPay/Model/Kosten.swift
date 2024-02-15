@@ -11,16 +11,16 @@ import SwiftData
 @Model
 class Kosten {
     var name: String
-//    var beitrag: String
-//    var anzahl: String
-    
-//    init(name: String, beitrag: String, anzahl: String) {
-//        self.name = name
-//        self.beitrag = beitrag
-//        self.anzahl = anzahl
-//    }
-    
-    init(name: String) {
+    var beitrag: Double
+    var anzahl: String
+    var destination: Destination?
+    var personen: Personen?
+
+    init(name: String, beitrag: Double, anzahl: String, destination: Destination? = nil, personen: Personen? = nil) {
         self.name = name
+        self.beitrag = beitrag
+        self.anzahl = anzahl
+        self.destination = destination
+        self.personen = personen
     }
 }

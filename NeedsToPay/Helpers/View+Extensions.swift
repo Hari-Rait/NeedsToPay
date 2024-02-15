@@ -7,8 +7,20 @@
 
 import SwiftUI
 
-var currencySymbol: String {
-    let locale = Locale.current
+extension View {
     
-    return locale.currencySymbol ?? ""
+    var currencySymbol: String {
+        
+        let locale = Locale.current
+        
+        return locale.currencySymbol ?? ""
+    }
+    
+    func currencyString(_ value: Double, allowedDigits: Int = 2) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = allowedDigits
+        
+        return formatter.string(from: .init(value: value)) ?? ""
+    }
 }
