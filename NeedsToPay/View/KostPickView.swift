@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct KostPickView: View {
+    @Query var destinationkosten: [Destination]
+    @Query var kostens: [Kosten]
+    private let destinations: Destination
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            ForEach(destinations.kosten) { kosten in
+                Text(kosten.name)
+            }
+        }
     }
-}
-
-#Preview {
-    KostPickView()
 }

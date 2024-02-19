@@ -27,6 +27,8 @@ struct EditDestinationView: View {
     
     @State private var kostenWählen = Array(repeating: 0, count: 3)
     
+    @State private var selectedKosten = Set<UUID>()
+    
     var body: some View {
         
         Form {
@@ -38,9 +40,7 @@ struct EditDestinationView: View {
                             .scaledToFit()
                     }
                 }
-                
                 PhotosPicker("Füge ein Foto hinzu", selection: $photosItem, matching: .images)
-                
             }
             
             
@@ -58,23 +58,25 @@ struct EditDestinationView: View {
                     Button("Hinzufügen", action: addSight)
                         .foregroundStyle(.purple)
                 }
-                
-                ForEach(destination.personen, id: \.id) { personen in
-                    VStack (alignment: .leading) {
-                        Text(personen.name)
-                        
-                        Picker("Kosten auswählen", selection: $kostenAuswahl) {
-                            
-                            Text("").tag(nil as Kosten?)
-                            
-                            ForEach(destination.kosten, id: \.self) { kosten in
-                                Text(kosten.name).tag(kosten as Kosten?).bold()
-                            }
+                List {
+                    ForEach(destination.personen) { personen in
+                        NavigationLink() {
+                            //List {
+                                List(destination.kosten, selection: $selectedKosten) { kosten in
+                                    HStack{
+                                        Text(kosten.name).tag(kosten.self)
+                                        Text(kosten.anzahl)
+                                    }
+                                }
+                            Text("\(selectedKosten.count) ausgewählt")
+                            //}
+                        } 
+                        label: {
+                            Text(personen.name)
                         }
-                        .pickerStyle(.menu).foregroundStyle(.purple)
                     }
+                    .onDelete(perform: deletePersonen)
                 }
-                .onDelete(perform: deletePersonen)
             }
             
             Section("Währung") {
@@ -134,12 +136,15 @@ struct EditDestinationView: View {
                 }
             }
         }
-        .navigationTitle("NeedsToPay")
+        .navigationTitle(destination.name)
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: photosItem) {
             Task {
                 destination.image = try? await photosItem?.loadTransferable(type: Data.self)
             }
+        }
+        .toolbar {
+            EditButton()
         }
     }
     

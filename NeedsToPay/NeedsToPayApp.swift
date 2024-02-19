@@ -17,11 +17,14 @@ struct NeedsToPayApp: App {
                     .tabItem {
                         Label("Orte", systemImage: "map")
                     }
-                
                 PersonenView()
                     .tabItem {
                         Label("Personen", systemImage: "person")
                     }
+//                KostPickView()
+//                    .tabItem {
+//                        Label("Personen", systemImage: "person")
+//                    }
             }
         }
         .modelContainer(for: Destination.self)
