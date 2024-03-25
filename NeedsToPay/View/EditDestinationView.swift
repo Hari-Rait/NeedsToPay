@@ -58,25 +58,24 @@ struct EditDestinationView: View {
                     Button("Hinzufügen", action: addSight)
                         .foregroundStyle(.purple)
                 }
-                List {
                     ForEach(destination.personen) { personen in
                         NavigationLink() {
-                            //List {
-                                List(destination.kosten, selection: $selectedKosten) { kosten in
+                            List(destination.kosten, selection: $selectedKosten) { kosten in
                                     HStack{
-                                        Text(kosten.name).tag(kosten.self)
+                                        Text(kosten.name).tag(kosten.id)
                                         Text(kosten.anzahl)
                                     }
-                                }
+                            }
+                            .toolbar {
+                                EditButton()
+                            }
                             Text("\(selectedKosten.count) ausgewählt")
-                            //}
-                        } 
+                        }
                         label: {
                             Text(personen.name)
                         }
                     }
                     .onDelete(perform: deletePersonen)
-                }
             }
             
             Section("Währung") {
